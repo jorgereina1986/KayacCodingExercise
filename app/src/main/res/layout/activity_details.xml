@@ -15,29 +15,36 @@
         android:id="@+id/details_logo_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/airline_name"
-        android:textSize="25sp"
         android:id="@+id/details_title_tv"
-        android:layout_gravity="center"/>
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/details_phone_tv"
+        android:layout_gravity="center"
         android:text="@string/airline_name"
-        android:textSize="20sp"
-        android:layout_gravity="center"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/details_website_tv"
-        android:text="@string/airline_name"
-        android:textSize="20sp"
-        android:layout_gravity="center"/>
+        android:textSize="25sp" />
 
+    <TextView
+        android:id="@+id/details_phone_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/airline_name"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/details_website_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/airline_name"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/add_to_fav_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_favorites" />
 
 </LinearLayout>

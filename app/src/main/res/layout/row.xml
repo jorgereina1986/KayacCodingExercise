@@ -10,7 +10,8 @@
         android:id="@+id/airline_logo_iv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"/>
 
     <TextView
         android:layout_width="0dp"
@@ -18,16 +19,7 @@
         android:layout_weight="4"
         android:text="@string/airline_name"
         android:id="@+id/airline_name_tv"
-        android:textColor="#000"/>
-
-    <ImageView
-        android:id="@+id/star_iv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity=""
-        android:src="@android:drawable/btn_star_big_off"
+        android:textColor="#000"
         android:layout_gravity="center_vertical"/>
-
 
 </LinearLayout>

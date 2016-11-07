@@ -9,12 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.jorgereina.kayak.models.Airline;
-import com.jorgereina.kayak.adapters.KayakAdapter;
-import com.jorgereina.kayak.service.KayakService;
 import com.jorgereina.kayak.R;
+import com.jorgereina.kayak.adapters.KayakAdapter;
+import com.jorgereina.kayak.models.Airline;
+import com.jorgereina.kayak.service.KayakService;
 
-import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Airline airline = airlineList.get(i);
                 Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("Airline", (Serializable) airline);
+                intent.putExtra("Airline", airline);
                 startActivity(intent);
             }
         });
