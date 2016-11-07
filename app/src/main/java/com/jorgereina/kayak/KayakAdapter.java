@@ -53,7 +53,6 @@ public class KayakAdapter extends BaseAdapter {
             viewHolder.airlineLogo = (ImageView) view.findViewById(R.id.airline_logo_iv);
             view.setTag(viewHolder);
 
-
         }
         else {
             viewHolder = (ViewHolder) view.getTag();
