@@ -1,9 +1,20 @@
-package com.jorgereina.kayak;
+package com.jorgereina.kayak.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.jorgereina.kayak.models.Airline;
+import com.jorgereina.kayak.adapters.KayakAdapter;
+import com.jorgereina.kayak.service.KayakService;
+import com.jorgereina.kayak.R;
+
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,15 +29,22 @@ public class MainActivity extends AppCompatActivity {
     private KayakAdapter adapter;
     private List<Airline> airlineList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initView();
-
         networkCall();
+        itemSelected();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
 
     }
 
@@ -61,5 +79,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         airlineLv = (ListView) findViewById(R.id.airline_lv);
+    }
+
+    private void itemSelected(){
+
+        airlineLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Airline airline = airlineList.get(i);
+                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                intent.putExtra("Airline", (Serializable) airline);
+                startActivity(intent);
+            }
+        });
+
     }
 }

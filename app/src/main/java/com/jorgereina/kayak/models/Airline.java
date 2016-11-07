@@ -1,9 +1,11 @@
-package com.jorgereina.kayak;
+package com.jorgereina.kayak.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Airline {
+import java.io.Serializable;
+
+public class Airline implements Serializable{
 
     @SerializedName("__clazz")
     @Expose

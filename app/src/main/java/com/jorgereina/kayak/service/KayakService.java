@@ -1,4 +1,6 @@
-package com.jorgereina.kayak;
+package com.jorgereina.kayak.service;
+
+import com.jorgereina.kayak.models.Airline;
 
 import java.util.List;
 
