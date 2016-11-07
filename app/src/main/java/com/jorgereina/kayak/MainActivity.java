@@ -2,11 +2,8 @@ package com.jorgereina.kayak;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,8 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private ListView airlineLv;
-    private ArrayAdapter adapter;
-    private ArrayList<String> arlineList;
+    private KayakAdapter adapter;
+    private List<Airline> airlineList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +38,18 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         KayakService service = retrofit.create(KayakService.class);
-
-        Call<List<Airline>> airlines = service.airlineList();
-
-        airlines.enqueue(new Callback<List<Airline>>() {
+        Call<List<Airline>> airlineCall = service.airlineList();
+        airlineCall.enqueue(new Callback<List<Airline>>() {
             @Override
             public void onResponse(Call<List<Airline>> call, Response<List<Airline>> response) {
-                Log.v("RESPONSE", "RESPONSE = " + response.body().get(0).getName());
+//                Log.v("RESPONSE", "RESPONSE = " + response.body());
+
+                airlineList = response.body();
+                adapter = new KayakAdapter(getApplicationContext(), airlineList);
+                airlineLv.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+
             }
 
             @Override
