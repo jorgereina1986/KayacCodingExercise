@@ -10,28 +10,28 @@ public class Airline implements Parcelable{
 
     @SerializedName("__clazz")
     @Expose
-    private String clazz;
+    public String clazz;
     @SerializedName("code")
     @Expose
-    private String code;
+    public String code;
     @SerializedName("defaultName")
     @Expose
-    private String defaultName;
+    public String defaultName;
     @SerializedName("logoURL")
     @Expose
-    private String logoURL;
+    public String logoURL;
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("phone")
     @Expose
-    private String phone;
+    public String phone;
     @SerializedName("site")
     @Expose
-    private String site;
+    public String site;
     @SerializedName("usName")
     @Expose
-    private String usName;
+    public String usName;
 
 
     protected Airline(Parcel in) {
