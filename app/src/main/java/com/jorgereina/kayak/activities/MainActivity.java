@@ -2,6 +2,7 @@ package com.jorgereina.kayak.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import com.jorgereina.kayak.adapters.KayakAdapter;
 import com.jorgereina.kayak.models.Airline;
 import com.jorgereina.kayak.service.KayakService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -86,9 +88,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Airline airline = airlineList.get(i);
+//                Airline airline = airlineList.get(i);
                 Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("Airline", airline);
+                intent.putParcelableArrayListExtra("Airline", (ArrayList<? extends Parcelable>) airlineList);
+                intent.putExtra("Position", i);
+                intent.putExtra("position", i);
                 startActivity(intent);
             }
         });

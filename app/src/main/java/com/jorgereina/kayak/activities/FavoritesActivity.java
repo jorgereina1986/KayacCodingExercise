@@ -14,11 +14,16 @@ import java.util.List;
 
 public class FavoritesActivity extends AppCompatActivity {
 
+    private static final String AIRLINE_LIST = "airline_arraylist";
+    private static final String POSITION = "position";
+
     private ListView favoritesLv;
     private List<Airline> favoritesList;
+    private List<Airline> receivingList;
     private Airline airline;
     private String airlineName;
     private KayakAdapter adapter;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +31,14 @@ public class FavoritesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorites);
         initViews();
 
-
         Intent getIntent = getIntent();
-        airline = (Airline) getIntent.getSerializableExtra("Airline");
+        receivingList = getIntent.getParcelableArrayListExtra(AIRLINE_LIST);
+        position = getIntent.getIntExtra(POSITION, 0);
 
-        airlineName = airline.getName();
+
 
         favoritesList = new ArrayList<>();
-        favoritesList.add(airline);
+        favoritesList.add(receivingList.get(position));
 
         adapter = new KayakAdapter(getApplicationContext(), favoritesList);
 
@@ -48,12 +53,5 @@ public class FavoritesActivity extends AppCompatActivity {
 
         favoritesLv = (ListView) findViewById(R.id.favorites_lv);
 
-    }
-
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-
-        super.onSaveInstanceState(outState);
     }
 }

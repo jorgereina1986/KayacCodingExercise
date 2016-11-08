@@ -14,9 +14,13 @@ import com.jorgereina.kayak.R;
 import com.jorgereina.kayak.models.Airline;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class DetailsActivity extends AppCompatActivity {
 
     private static final String BASE_IMAGE_URL = "http://www.kayak.com";
+    private static final String AIRLINE_LIST = "airline_arraylist";
+    private static final String POSITION = "position";
 
     private TextView titleTv;
     private TextView phoneNumberTv;
@@ -28,6 +32,8 @@ public class DetailsActivity extends AppCompatActivity {
     private String title;
     private String logo;
     private Button addToFavBtn;
+    private ArrayList<Airline> airlines;
+    private int position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,9 @@ public class DetailsActivity extends AppCompatActivity {
     private void loadData() {
 
         Intent getIntent = getIntent();
-        airline = (Airline) getIntent.getSerializableExtra("Airline");
+        airlines = getIntent.getParcelableArrayListExtra("Airline");
+        position = getIntent.getIntExtra("position",0);
+        airline = airlines.get(position);
 
         phoneNumber = airline.getPhone();
         webSite = airline.getSite();
@@ -75,7 +83,8 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FavoritesActivity.class);
-                intent.putExtra("Airline", airline);
+                intent.putParcelableArrayListExtra(AIRLINE_LIST, airlines);
+                intent.putExtra(POSITION, position);
                 startActivity(intent);
             }
         });
@@ -87,6 +96,7 @@ public class DetailsActivity extends AppCompatActivity {
         webSiteTv = (TextView) findViewById(R.id.details_website_tv);
         logoIv = (ImageView) findViewById(R.id.details_logo_iv);
         addToFavBtn = (Button) findViewById(R.id.add_to_fav_btn);
+
     }
 
     public void dialPhoneNumber(String phoneNumber) {
@@ -104,6 +114,5 @@ public class DetailsActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 
 }
