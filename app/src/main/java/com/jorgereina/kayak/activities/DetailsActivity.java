@@ -18,6 +18,14 @@ import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
 
+    private static final String TAG_FAV_NAME = "airline_name";
+    private static final String TAG_FAV_LOGO = "airline_logoUrl";
+    private static final String TAG_FAV_PHONE = "airline_phone";
+    private static final String TAG_FAV_WEBSITE = "airline_website";
+    private static final String TAG_NAME = "airline_name";
+    private static final String TAG_LOGO = "airline_logoUrl";
+    private static final String TAG_PHONE = "airline_phone";
+    private static final String TAG_WEBSITE = "airline_website";
     private static final String BASE_IMAGE_URL = "http://www.kayak.com";
     private static final String AIRLINE_LIST = "airline_arraylist";
     private static final String POSITION = "position";
@@ -27,13 +35,12 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView webSiteTv;
     private ImageView logoIv;
     private Airline airline;
-    private String phoneNumber;
-    private String webSite;
-    private String title;
+    private String name;
     private String logo;
+    private String phone;
+    private String website;
     private Button addToFavBtn;
     private ArrayList<Airline> airlines;
-    private int position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +55,15 @@ public class DetailsActivity extends AppCompatActivity {
     private void loadData() {
 
         Intent getIntent = getIntent();
-        airlines = getIntent.getParcelableArrayListExtra("Airline");
-        position = getIntent.getIntExtra("position",0);
-        airline = airlines.get(position);
+        name = getIntent.getStringExtra(TAG_NAME);
+        phone = getIntent.getStringExtra(TAG_PHONE);
+        logo = getIntent.getStringExtra(TAG_LOGO);
+        website = getIntent.getStringExtra(TAG_WEBSITE);
 
-        phoneNumber = airline.getPhone();
-        webSite = airline.getSite();
-        title = airline.getName();
-        logo = BASE_IMAGE_URL + airline.getLogoURL();
-
-        Picasso.with(getApplicationContext()).load(logo).resize(300,300).into(logoIv);
-        titleTv.setText(title);
-        phoneNumberTv.setText(phoneNumber);
-        webSiteTv.setText(webSite);
+        Picasso.with(getApplicationContext()).load(BASE_IMAGE_URL+logo).resize(300,300).into(logoIv);
+        titleTv.setText(name);
+        phoneNumberTv.setText(phone);
+        webSiteTv.setText(website);
     }
 
     private void setClickListeners() {
@@ -68,14 +71,14 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                dialPhoneNumber(phoneNumber);
+                dialPhoneNumber(phone);
             }
         });
         webSiteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                openWebPage(webSite);
+                openWebPage(website);
                 Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
             }
         });
@@ -83,8 +86,10 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FavoritesActivity.class);
-                intent.putParcelableArrayListExtra(AIRLINE_LIST, airlines);
-                intent.putExtra(POSITION, position);
+                intent.putExtra(TAG_NAME, name);
+                intent.putExtra(TAG_LOGO, logo);
+                intent.putExtra(TAG_PHONE, phone);
+                intent.putExtra(TAG_WEBSITE, website);
                 startActivity(intent);
             }
         });

@@ -1,8 +1,5 @@
 package com.jorgereina.kayak.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -33,6 +30,10 @@ public class Airline{
     @Expose
     public String usName;
 
+    public Airline(String name, String logoURL) {
+        this.name = name;
+        this.logoURL = logoURL;
+    }
 
     public String getClazz() {
         return clazz;

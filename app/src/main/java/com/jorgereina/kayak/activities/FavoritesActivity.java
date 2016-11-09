@@ -2,7 +2,6 @@ package com.jorgereina.kayak.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
@@ -15,6 +14,10 @@ import java.util.List;
 
 public class FavoritesActivity extends AppCompatActivity {
 
+    private static final String TAG_FAV_NAME = "airline_name";
+    private static final String TAG_FAV_LOGO = "airline_logoUrl";
+    private static final String TAG_FAV_PHONE = "airline_phone";
+    private static final String TAG_FAV_WEBSITE = "airline_website";
     private static final String AIRLINE_LIST = "airline_arraylist";
     private static final String POSITION = "position";
     private static final String SAVE_LIST = "save_list";
@@ -26,32 +29,33 @@ public class FavoritesActivity extends AppCompatActivity {
     private KayakAdapter adapter;
     private int position;
 
+    private String name;
+    private String logo;
+    private String website;
+    private String phone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         initViews();
 
-        if (savedInstanceState != null) {
 
-            favoritesList = savedInstanceState.getParcelableArrayList(SAVE_LIST);
+        Intent getIntent = getIntent();
+        name = getIntent.getStringExtra(TAG_FAV_NAME);
+        logo = getIntent.getStringExtra(TAG_FAV_LOGO);
+        phone = getIntent.getStringExtra(TAG_FAV_PHONE);
+        website = getIntent.getStringExtra(TAG_FAV_WEBSITE);
 
-        }
-        else {
-            Intent getIntent = getIntent();
-            receivingList = getIntent.getParcelableArrayListExtra(AIRLINE_LIST);
-            position = getIntent.getIntExtra(POSITION, 0);
+        favoritesList = new ArrayList<>();
+        favoritesList.add(new Airline(name, logo));
 
+        adapter = new KayakAdapter(getApplicationContext(), favoritesList);
 
-            favoritesList = new ArrayList<>();
-            favoritesList.add(receivingList.get(position));
+        favoritesLv.setAdapter(adapter);
 
-            adapter = new KayakAdapter(getApplicationContext(), favoritesList);
+        adapter.notifyDataSetChanged();
 
-            favoritesLv.setAdapter(adapter);
-
-            adapter.notifyDataSetChanged();
-        }
 
     }
 
@@ -61,9 +65,4 @@ public class FavoritesActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(SAVE_LIST, (ArrayList<? extends Parcelable>) favoritesList);
-        super.onSaveInstanceState(outState);
-    }
 }
