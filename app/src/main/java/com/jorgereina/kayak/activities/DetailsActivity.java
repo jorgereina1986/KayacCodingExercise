@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jorgereina.kayak.R;
+import com.jorgereina.kayak.models.Airline;
 import com.squareup.picasso.Picasso;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -92,7 +93,11 @@ public class DetailsActivity extends AppCompatActivity {
 //                intent.putExtra(TAG_WEBSITE, website);
 //                startActivity(intent);
 
-                mDatabase.child("Airlines").push().child(name).setValue(name);
+                //adding airline info to firebase data
+//                mDatabase.child("Airlines").push().child("name").setValue(name);
+//                mDatabase.child("Airlines").push().child("logoUrl").setValue(logo);
+
+                mDatabase.child("Airlines").push().setValue(new Airline(name, logo));
 
             }
         });
