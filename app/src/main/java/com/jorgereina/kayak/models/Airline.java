@@ -1,12 +1,9 @@
 package com.jorgereina.kayak.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Airline implements Parcelable{
+public class Airline{
 
     @SerializedName("__clazz")
     @Expose
@@ -33,29 +30,13 @@ public class Airline implements Parcelable{
     @Expose
     public String usName;
 
-
-    protected Airline(Parcel in) {
-        clazz = in.readString();
-        code = in.readString();
-        defaultName = in.readString();
-        logoURL = in.readString();
-        name = in.readString();
-        phone = in.readString();
-        site = in.readString();
-        usName = in.readString();
+    public Airline(String name, String logoURL) {
+        this.name = name;
+        this.logoURL = logoURL;
     }
 
-    public static final Creator<Airline> CREATOR = new Creator<Airline>() {
-        @Override
-        public Airline createFromParcel(Parcel in) {
-            return new Airline(in);
-        }
-
-        @Override
-        public Airline[] newArray(int size) {
-            return new Airline[size];
-        }
-    };
+    public Airline() {
+    }
 
     public String getClazz() {
         return clazz;
@@ -121,22 +102,5 @@ public class Airline implements Parcelable{
         this.usName = usName;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-
-        parcel.writeString(clazz);
-        parcel.writeString(code);
-        parcel.writeString(defaultName);
-        parcel.writeString(logoURL);
-        parcel.writeString(name);
-        parcel.writeString(phone);
-        parcel.writeString(site);
-        parcel.writeString(usName);
-    }
 
 }
