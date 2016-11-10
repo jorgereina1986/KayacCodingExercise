@@ -1,6 +1,7 @@
 package com.jorgereina.kayak.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jorgereina.kayak.R;
-import com.jorgereina.kayak.models.Airline;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -34,26 +32,23 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView phoneNumberTv;
     private TextView webSiteTv;
     private ImageView logoIv;
-    private Airline airline;
     private String name;
     private String logo;
     private String phone;
     private String website;
     private Button addToFavBtn;
-    private ArrayList<Airline> airlines;
-
+    private SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         initViews();
-        loadData();
+        passingDataToViews();
         setClickListeners();
 
     }
 
-    private void loadData() {
-
+    private void passingDataToViews(){
         Intent getIntent = getIntent();
         name = getIntent.getStringExtra(TAG_NAME);
         phone = getIntent.getStringExtra(TAG_PHONE);
@@ -120,4 +115,18 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
+    private void sendPref(){
+        SharedPreferences savePref = getSharedPreferences("save",MODE_PRIVATE);
+        SharedPreferences.Editor editor= savePref.edit();
+        editor.putString(TAG_FAV_NAME, name);
+        editor.putString(TAG_FAV_LOGO, logo);
+        editor.commit();
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        sendPref();
+        super.onSaveInstanceState(outState);
+    }
 }

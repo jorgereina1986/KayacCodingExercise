@@ -1,8 +1,9 @@
 package com.jorgereina.kayak.activities;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.jorgereina.kayak.R;
@@ -18,16 +19,14 @@ public class FavoritesActivity extends AppCompatActivity {
     private static final String TAG_FAV_LOGO = "airline_logoUrl";
     private static final String TAG_FAV_PHONE = "airline_phone";
     private static final String TAG_FAV_WEBSITE = "airline_website";
-    private static final String AIRLINE_LIST = "airline_arraylist";
-    private static final String POSITION = "position";
     private static final String SAVE_LIST = "save_list";
 
     private ListView favoritesLv;
     private List<Airline> favoritesList;
-    private List<Airline> receivingList;
-    private Airline airline;
+    private List<Airline> saveList;
     private KayakAdapter adapter;
-    private int position;
+    private Airline airline;
+//    private SharedPreferences preferences;
 
     private String name;
     private String logo;
@@ -39,25 +38,62 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         initViews();
+/***
+//        getPref();
 
+//        Intent getIntent = getIntent();
+//        name = getIntent.getStringExtra(TAG_FAV_NAME);
+//        logo = getIntent.getStringExtra(TAG_FAV_LOGO);
+//        phone = getIntent.getStringExtra(TAG_FAV_PHONE);
+//        website = getIntent.getStringExtra(TAG_FAV_WEBSITE);
 
-        Intent getIntent = getIntent();
-        name = getIntent.getStringExtra(TAG_FAV_NAME);
-        logo = getIntent.getStringExtra(TAG_FAV_LOGO);
-        phone = getIntent.getStringExtra(TAG_FAV_PHONE);
-        website = getIntent.getStringExtra(TAG_FAV_WEBSITE);
+***/
 
-        favoritesList = new ArrayList<>();
-        favoritesList.add(new Airline(name, logo));
+        SharedPreferences loadPref = getSharedPreferences("save",MODE_PRIVATE);
+        String namePref = loadPref.getString(TAG_FAV_NAME, null);
+        String logoPref = loadPref.getString(TAG_FAV_LOGO, null);
 
-        adapter = new KayakAdapter(getApplicationContext(), favoritesList);
-
-        favoritesLv.setAdapter(adapter);
-
-        adapter.notifyDataSetChanged();
-
-
+//        if (namePref!=null || logoPref!=null){
+//            Toast.makeText(getApplicationContext(),"Nodatafound", Toast.LENGTH_SHORT).show();
+//        }
+//        else {
+            favoritesList = new ArrayList<>();
+            favoritesList.add(new Airline(namePref, logoPref));
+            adapter = new KayakAdapter(getApplicationContext(), favoritesList);
+            favoritesLv.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+            Log.v("LIST", favoritesList.get(0).getName());
+//        }
     }
+
+//    private void saveData(){
+//
+//        preferences = getSharedPreferences("MyData",MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        for (int i = 0; i < adapter.getCount(); i++) {
+//
+//            editor.putString("name"+i, name);
+//            editor.putString("logo"+i, logo);
+//        }
+//        editor.commit();
+//    }
+//
+//    private void loadData() {
+//
+//        ArrayList<Airline> arr = new ArrayList<>();
+//
+//
+//        preferences = getSharedPreferences("MyData", MODE_PRIVATE);
+//
+//        for (int i = 0; ; i++) {
+//
+//            String prefName = preferences.getString("name", null);
+//            String prefLogo = preferences.getString("logo", null);
+//            favoritesList.add(new Airline(prefName,prefLogo));
+//        }
+//
+//
+//    }
 
     private void initViews() {
 
@@ -65,4 +101,9 @@ public class FavoritesActivity extends AppCompatActivity {
 
     }
 
+    private void getPref(){
+        SharedPreferences loadPref = getSharedPreferences("save",MODE_PRIVATE);
+        String name = loadPref.getString(TAG_FAV_NAME, null);
+        String logo = loadPref.getString(TAG_FAV_LOGO, null);
+    }
 }

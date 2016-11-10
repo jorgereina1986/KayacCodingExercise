@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "524661725349",
+    "firebase_url": "https://kayak-exercise.firebaseio.com",
+    "project_id": "kayak-exercise",
+    "storage_bucket": "kayak-exercise.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524661725349:android:f196f3c073d01b92",
+        "android_client_info": {
+          "package_name": "com.jorgereina.kayak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524661725349-kfridaf4rh6iju1qpmv6puqdo3uu5vqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jorgereina.kayak",
+            "certificate_hash": "CBE3528C440E4E6C36EAA485BA21B8C6E753A828"
+          }
+        },
+        {
+          "client_id": "524661725349-2914qn11k43lvkgq7l9jsjedvrk9ah4v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_XcgcLp2oWWKe3nT3tqGVCQmqyuvcx2c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524661725349-2914qn11k43lvkgq7l9jsjedvrk9ah4v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
