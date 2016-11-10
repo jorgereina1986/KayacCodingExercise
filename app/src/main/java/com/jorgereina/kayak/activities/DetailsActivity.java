@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.jorgereina.kayak.R;
 import com.squareup.picasso.Picasso;
 
@@ -38,6 +39,9 @@ public class DetailsActivity extends AppCompatActivity {
     private String website;
     private Button addToFavBtn;
     private SharedPreferences preferences;
+
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,8 @@ public class DetailsActivity extends AppCompatActivity {
         passingDataToViews();
         setClickListeners();
 
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     private void passingDataToViews(){
@@ -74,18 +80,20 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 openWebPage(website);
-                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
             }
         });
         addToFavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FavoritesActivity.class);
-                intent.putExtra(TAG_NAME, name);
-                intent.putExtra(TAG_LOGO, logo);
-                intent.putExtra(TAG_PHONE, phone);
-                intent.putExtra(TAG_WEBSITE, website);
-                startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), FavoritesActivity.class);
+//                intent.putExtra(TAG_NAME, name);
+//                intent.putExtra(TAG_LOGO, logo);
+//                intent.putExtra(TAG_PHONE, phone);
+//                intent.putExtra(TAG_WEBSITE, website);
+//                startActivity(intent);
+
+                mDatabase.child("Airlines").push().child(name).setValue(name);
+
             }
         });
     }
