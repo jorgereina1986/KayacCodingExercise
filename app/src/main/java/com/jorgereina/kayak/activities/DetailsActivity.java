@@ -1,14 +1,15 @@
 package com.jorgereina.kayak.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,8 +28,6 @@ public class DetailsActivity extends AppCompatActivity {
     private static final String TAG_PHONE = "airline_phone";
     private static final String TAG_WEBSITE = "airline_website";
     private static final String BASE_IMAGE_URL = "http://www.kayak.com";
-    private static final String AIRLINE_LIST = "airline_arraylist";
-    private static final String POSITION = "position";
 
     private TextView titleTv;
     private TextView phoneNumberTv;
@@ -39,7 +38,6 @@ public class DetailsActivity extends AppCompatActivity {
     private String phone;
     private String website;
     private Button addToFavBtn;
-    private SharedPreferences preferences;
 
     private DatabaseReference mDatabase;
 
@@ -86,18 +84,19 @@ public class DetailsActivity extends AppCompatActivity {
         addToFavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), FavoritesActivity.class);
-//                intent.putExtra(TAG_NAME, name);
-//                intent.putExtra(TAG_LOGO, logo);
-//                intent.putExtra(TAG_PHONE, phone);
-//                intent.putExtra(TAG_WEBSITE, website);
-//                startActivity(intent);
 
-                //adding airline info to firebase data
-//                mDatabase.child("Airlines").push().child("name").setValue(name);
-//                mDatabase.child("Airlines").push().child("logoUrl").setValue(logo);
+                if (mDatabase.child("Airlines").getDatabase().equals(name)){
 
-                mDatabase.child("Airlines").push().setValue(new Airline(name, logo));
+                    Toast.makeText(getApplicationContext(), "This  Airline is already in your Favorites", Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+                    mDatabase.child("Airlines").push().setValue(new Airline(name, logo));
+                }
+
+                Log.v("KEYNAME",mDatabase.child("Airlines").child("-KWEmT-BvD-BRBJdjBX4").getKey());
+
+
                 Intent intent =  new Intent(getApplicationContext(), FavoritesActivity.class);
                 startActivity(intent);
 
@@ -130,18 +129,4 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void sendPref(){
-        SharedPreferences savePref = getSharedPreferences("save",MODE_PRIVATE);
-        SharedPreferences.Editor editor= savePref.edit();
-        editor.putString(TAG_FAV_NAME, name);
-        editor.putString(TAG_FAV_LOGO, logo);
-        editor.commit();
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        sendPref();
-        super.onSaveInstanceState(outState);
-    }
 }

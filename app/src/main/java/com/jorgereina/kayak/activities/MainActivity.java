@@ -3,8 +3,10 @@ package com.jorgereina.kayak.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView airlineLv;
     private KayakAdapter adapter;
     private List<Airline> airlineList;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         airlineLv = (ListView) findViewById(R.id.airline_lv);
+        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
     }
 
     private void itemSelected(){
@@ -101,4 +106,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.favorite_btn:
+
+                Intent intent = new Intent(this, FavoritesActivity.class);
+                startActivity(intent);
+                return true;
+
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+
+    }
+
 }
