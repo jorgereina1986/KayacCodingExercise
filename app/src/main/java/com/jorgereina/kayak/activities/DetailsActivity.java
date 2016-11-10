@@ -98,6 +98,8 @@ public class DetailsActivity extends AppCompatActivity {
 //                mDatabase.child("Airlines").push().child("logoUrl").setValue(logo);
 
                 mDatabase.child("Airlines").push().setValue(new Airline(name, logo));
+                Intent intent =  new Intent(getApplicationContext(), FavoritesActivity.class);
+                startActivity(intent);
 
             }
         });

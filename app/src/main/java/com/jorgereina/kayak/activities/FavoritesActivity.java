@@ -1,16 +1,20 @@
 package com.jorgereina.kayak.activities;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.jorgereina.kayak.R;
 import com.jorgereina.kayak.adapters.KayakAdapter;
 import com.jorgereina.kayak.models.Airline;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesActivity extends AppCompatActivity {
@@ -20,13 +24,15 @@ public class FavoritesActivity extends AppCompatActivity {
     private static final String TAG_FAV_PHONE = "airline_phone";
     private static final String TAG_FAV_WEBSITE = "airline_website";
     private static final String SAVE_LIST = "save_list";
+    private static final String BASE_LOGO_URL = "http://www.kayak.com";
 
     private ListView favoritesLv;
     private List<Airline> favoritesList;
     private List<Airline> saveList;
     private KayakAdapter adapter;
     private Airline airline;
-//    private SharedPreferences preferences;
+
+    private FirebaseListAdapter<Airline> fbAdapter;
 
     private String name;
     private String logo;
@@ -38,62 +44,26 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         initViews();
-/***
-//        getPref();
 
-//        Intent getIntent = getIntent();
-//        name = getIntent.getStringExtra(TAG_FAV_NAME);
-//        logo = getIntent.getStringExtra(TAG_FAV_LOGO);
-//        phone = getIntent.getStringExtra(TAG_FAV_PHONE);
-//        website = getIntent.getStringExtra(TAG_FAV_WEBSITE);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Airlines");
 
-***/
 
-        SharedPreferences loadPref = getSharedPreferences("save",MODE_PRIVATE);
-        String namePref = loadPref.getString(TAG_FAV_NAME, null);
-        String logoPref = loadPref.getString(TAG_FAV_LOGO, null);
+        fbAdapter = new FirebaseListAdapter<Airline>(this, Airline.class, R.layout.row, databaseReference) {
+            @Override
+            protected void populateView(View v, Airline model, int position) {
 
-//        if (namePref!=null || logoPref!=null){
-//            Toast.makeText(getApplicationContext(),"Nodatafound", Toast.LENGTH_SHORT).show();
-//        }
-//        else {
-            favoritesList = new ArrayList<>();
-            favoritesList.add(new Airline(namePref, logoPref));
-            adapter = new KayakAdapter(getApplicationContext(), favoritesList);
-            favoritesLv.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-            Log.v("LIST", favoritesList.get(0).getName());
-//        }
+                TextView name = (TextView) v.findViewById(R.id.airline_name_tv);
+                name.setText(model.getName());
+
+                ImageView logo = (ImageView) v.findViewById(R.id.airline_logo_iv);
+                Picasso.with(getApplicationContext()).load(BASE_LOGO_URL+model.getLogoURL()).into(logo);
+            }
+        };
+
+        favoritesLv.setAdapter(fbAdapter);
+        fbAdapter.notifyDataSetChanged();
     }
 
-//    private void saveData(){
-//
-//        preferences = getSharedPreferences("MyData",MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
-//        for (int i = 0; i < adapter.getCount(); i++) {
-//
-//            editor.putString("name"+i, name);
-//            editor.putString("logo"+i, logo);
-//        }
-//        editor.commit();
-//    }
-//
-//    private void loadData() {
-//
-//        ArrayList<Airline> arr = new ArrayList<>();
-//
-//
-//        preferences = getSharedPreferences("MyData", MODE_PRIVATE);
-//
-//        for (int i = 0; ; i++) {
-//
-//            String prefName = preferences.getString("name", null);
-//            String prefLogo = preferences.getString("logo", null);
-//            favoritesList.add(new Airline(prefName,prefLogo));
-//        }
-//
-//
-//    }
 
     private void initViews() {
 
@@ -101,9 +71,4 @@ public class FavoritesActivity extends AppCompatActivity {
 
     }
 
-    private void getPref(){
-        SharedPreferences loadPref = getSharedPreferences("save",MODE_PRIVATE);
-        String name = loadPref.getString(TAG_FAV_NAME, null);
-        String logo = loadPref.getString(TAG_FAV_LOGO, null);
-    }
 }

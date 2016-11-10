@@ -35,6 +35,9 @@ public class Airline{
         this.logoURL = logoURL;
     }
 
+    public Airline() {
+    }
+
     public String getClazz() {
         return clazz;
     }
