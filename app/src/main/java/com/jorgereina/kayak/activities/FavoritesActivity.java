@@ -3,9 +3,11 @@ package com.jorgereina.kayak.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private static final String BASE_LOGO_URL = "http://www.kayak.com";
 
     private ListView favoritesLv;
+    private Toolbar favToolbar;
 
     private FirebaseListAdapter<Airline> fbAdapter;
 
@@ -41,7 +44,7 @@ public class FavoritesActivity extends AppCompatActivity {
                 name.setText(model.getName());
 
                 ImageView logo = (ImageView) v.findViewById(R.id.airline_logo_iv);
-                Picasso.with(getApplicationContext()).load(BASE_LOGO_URL+model.getLogoURL()).into(logo);
+                Picasso.with(getApplicationContext()).load(BASE_LOGO_URL + model.getLogoURL()).into(logo);
             }
         };
 
@@ -49,23 +52,37 @@ public class FavoritesActivity extends AppCompatActivity {
         fbAdapter.notifyDataSetChanged();
     }
 
-
     private void initViews() {
 
         favoritesLv = (ListView) findViewById(R.id.favorites_lv);
+        favToolbar = (Toolbar) findViewById(R.id.fav_toolbar);
+        setSupportActionBar(favToolbar);
 
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.fav_menu, menu);
+        favToolbar.setTitle("Favorites");
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Button homeBtn = (Button) findViewById(R.id.favorite_btn);
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+
+        switch (item.getItemId()) {
+            case R.id.home_btn:
+
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
-            }
-        });
-        return super.onOptionsItemSelected(item);
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }

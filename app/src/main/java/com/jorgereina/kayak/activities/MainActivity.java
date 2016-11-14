@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+        toolbar.setTitle("Home");
         return true;
 
     }
@@ -116,11 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, FavoritesActivity.class);
                 startActivity(intent);
                 return true;
-
-
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }
