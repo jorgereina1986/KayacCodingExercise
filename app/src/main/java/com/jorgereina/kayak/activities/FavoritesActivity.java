@@ -1,8 +1,11 @@
 package com.jorgereina.kayak.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,33 +14,16 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jorgereina.kayak.R;
-import com.jorgereina.kayak.adapters.KayakAdapter;
 import com.jorgereina.kayak.models.Airline;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 public class FavoritesActivity extends AppCompatActivity {
 
-    private static final String TAG_FAV_NAME = "airline_name";
-    private static final String TAG_FAV_LOGO = "airline_logoUrl";
-    private static final String TAG_FAV_PHONE = "airline_phone";
-    private static final String TAG_FAV_WEBSITE = "airline_website";
-    private static final String SAVE_LIST = "save_list";
     private static final String BASE_LOGO_URL = "http://www.kayak.com";
 
     private ListView favoritesLv;
-    private List<Airline> favoritesList;
-    private List<Airline> saveList;
-    private KayakAdapter adapter;
-    private Airline airline;
 
     private FirebaseListAdapter<Airline> fbAdapter;
-
-    private String name;
-    private String logo;
-    private String website;
-    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +32,6 @@ public class FavoritesActivity extends AppCompatActivity {
         initViews();
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Airlines");
-
 
         fbAdapter = new FirebaseListAdapter<Airline>(this, Airline.class, R.layout.row, databaseReference) {
             @Override
@@ -71,4 +56,16 @@ public class FavoritesActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Button homeBtn = (Button) findViewById(R.id.favorite_btn);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        return super.onOptionsItemSelected(item);
+    }
 }
