@@ -91,7 +91,7 @@ public class DetailsActivity extends AppCompatActivity {
                 }
                 else {
 
-                    mDatabase.child("Airlines").push().setValue(new Airline(name, logo));
+                    mDatabase.child("Airlines").child(name).setValue(new Airline(name, logo));
                 }
 
                 Log.v("KEYNAME",mDatabase.child("Airlines").child("-KWEmT-BvD-BRBJdjBX4").getKey());
